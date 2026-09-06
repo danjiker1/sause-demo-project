@@ -14,6 +14,7 @@ public class LoginPage {
     private final By usernameLocator = By.xpath("//*[@id='user-name']");
     private final By passwordLocator = By.xpath("//*[@id='password']");
     private final By submitLoginLocator = By.xpath("//*[@id='login-button']");
+    private final By errorMessageLocator = By.xpath("//*[@data-test='error']");
 
 
     public LoginPage(WebDriver driver, WebDriverWait wait) {
@@ -35,7 +36,28 @@ public class LoginPage {
 
         driver.findElement(submitLoginLocator).click();
 
+        if (isErrorDisplayed()){
+            return null;
+        }
+
         return new ProductsPage(driver,wait);
+    }
+
+    public boolean isErrorDisplayed(){
+        try {
+           return driver.findElement(errorMessageLocator).isDisplayed();
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    public String getErrorMessageText(){
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageLocator)).getText();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
