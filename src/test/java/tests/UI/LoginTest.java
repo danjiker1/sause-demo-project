@@ -19,30 +19,29 @@ public class LoginTest extends BasePage {
 
     LoginPage loginPage;
 
-@BeforeEach
-    public void setUp(){
-        super.setUp();
-    loginPage = new LoginPage(driver, wait);
-}
-
-@AfterEach
-    @Override
-    public void tearDown(){
-        super.tearDown();
-}
-
     private static final String VALID_USERNAME = "standard_user";
     private static final String VALID_PASSWORD = "secret_sauce";
     private static final String INVALID_USERNAME = "wrong_user";
     private static final String EXPECTED_LOGO_TEXT = "Swag Labs";
     private static final String EXPECTED_ERROR_MESSAGE = "Epic sadface: Username and password do not match any user in this service";
 
+    @BeforeEach
+    public void setUp(){
+        super.setUp();
+        loginPage = new LoginPage(driver, wait);
+    }
 
-@Nested
-@Test
-@DisplayName("Ввод корректных данных при авторизации")
-@Description("Проверяем отправку обязательных полей логина и отображение логотипа на главной странице")
-@Severity(SeverityLevel.CRITICAL)
+    @AfterEach
+    @Override
+    public void tearDown(){
+        super.tearDown();
+    }
+
+    @Nested
+    @Test
+    @DisplayName("Ввод корректных данных при авторизации")
+    @Description("Проверяем отправку обязательных полей логина и отображение логотипа на главной странице")
+    @Severity(SeverityLevel.CRITICAL)
     void loginWithCorrectDataTest(){
 
     ProductsPage productsPage = loginPage.openPage()
@@ -54,11 +53,11 @@ public class LoginTest extends BasePage {
     );
 }
 
-@Nested
-@Test
-@DisplayName("Ввод некорректных данных при авторизации")
-@Description("Проверяем отображение ошибки при введении некорретных данных")
-@Severity(SeverityLevel.NORMAL)
+    @Nested
+    @Test
+    @DisplayName("Ввод некорректных данных при авторизации")
+    @Description("Проверяем отображение ошибки при введении некорретных данных")
+    @Severity(SeverityLevel.NORMAL)
     void loginWithIncorrectDataTest(){
 
     ProductsPage productsPage = loginPage.openPage()
@@ -72,10 +71,10 @@ public class LoginTest extends BasePage {
 
 }
 
-@Test
-@DisplayName("Ввод пустого логина при авторизации")
-@Description("Проверяем отображение ошибки ,если оставить логин пустым")
-@Severity(SeverityLevel.NORMAL)
+    @Test
+    @DisplayName("Ввод пустого логина при авторизации")
+    @Description("Проверяем отображение ошибки ,если оставить логин пустым")
+    @Severity(SeverityLevel.NORMAL)
     void loginWithEmptyUsernameTest(){
 
     ProductsPage productsPage = loginPage
