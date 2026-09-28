@@ -10,6 +10,8 @@ import pageobject.BasePage;
 import pageobject.LoginPage;
 import pageobject.ProductsPage;
 
+import java.net.MalformedURLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Epic("UI tests")

@@ -29,6 +29,11 @@ dependencies {
     // ===================== Allure =====================
     testImplementation("io.qameta.allure:allure-junit5:2.24.0")
     implementation("io.qameta.allure:allure-java-commons:2.24.0")
+
+
+    implementation("tools.jackson.core:jackson-databind:3.2.2")
+
+    implementation("org.apache.kafka:kafka_2.13:4.2.1")
 }
 
 // ===================== ✅ ИСПРАВЛЕННЫЙ БЛОК ALLURE (Groovy) =====================
@@ -41,6 +46,13 @@ allure {
 
 tasks.test {
     useJUnitPlatform()
+
+    // Если задана переменная TEST_GROUP — фильтруем по пакету
+    def testGroup = System.getenv("TEST_GROUP")
+    if (testGroup != null && !testGroup.isBlank()) {
+        include "**/${testGroup}/**"
+    }
+
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
