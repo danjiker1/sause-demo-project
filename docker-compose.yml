@@ -3,8 +3,6 @@ services:
     image: selenium/hub:4.27.0
     container_name: selenium-hub
     ports:
-      - "4442:4442"
-      - "4443:4443"
       - "4444:4444"
 
   chrome:
@@ -20,15 +18,19 @@ services:
       - SE_NODE_GRID_URL=http://selenium-hub:4444
       - SE_NODE_MAX_SESSIONS=4
 
-  tests:
-    build: .
-    container_name: aqa-tests
-    depends_on:
-      - selenium-hub
-      - chrome
-    environment:
-      - GRID_URL=http://selenium-hub:4444
-      - BROWSER=chrome
-      - TEST_GROUP=tests/UI    # ← добавили
+  jenkins:
+    image: jenkins/jenkins:lts-jdk21
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
     volumes:
-      - ./build/allure-results:/app/build/allure-results
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - C:/examTestProjects/saucedemo:/workspace/saucedemo
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=true
+
+volumes:
+  jenkins_home:
